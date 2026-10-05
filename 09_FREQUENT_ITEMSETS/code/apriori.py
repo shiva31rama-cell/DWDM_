@@ -1,54 +1,49 @@
-from itertools import combinations
+# Simple Apriori-style demonstration.
+# Only lists, loops and if statements are used.
 
 transactions = [
-    {"milk", "bread", "eggs"},
-    {"milk", "bread"},
-    {"milk", "eggs"},
-    {"bread", "eggs"},
-    {"milk", "bread", "eggs"},
+    ["milk", "bread", "eggs"],
+    ["milk", "bread"],
+    ["milk", "eggs"],
+    ["bread", "eggs"],
+    ["milk", "bread", "eggs"]
 ]
-MIN_SUPPORT = 0.6
-MIN_CONFIDENCE = 0.7
 
-def support(itemset):
-    return sum(itemset.issubset(t) for t in transactions) / len(transactions)
+items = ["bread", "eggs", "milk"]
+minimum_support_count = 3
 
-def apriori():
-    items = sorted(set().union(*transactions))
-    current = [frozenset([x]) for x in items]
-    frequent = {}
+print("Frequent 1-itemsets")
 
-    while current:
-        accepted = []
-        for itemset in current:
-            if support(itemset) >= MIN_SUPPORT:
-                frequent[itemset] = support(itemset)
-                accepted.append(itemset)
+for i in range(len(items)):
+    count = 0
 
-        next_candidates = set()
-        for a, b in combinations(accepted, 2):
-            union = a | b
-            if len(union) == len(a) + 1:
-                next_candidates.add(union)
-        current = list(next_candidates)
-    return frequent
+    for transaction in transactions:
+        for item in transaction:
+            if item == items[i]:
+                count += 1
+                break
 
-def print_rules(frequent):
-    for itemset, sup in frequent.items():
-        if len(itemset) < 2:
-            continue
-        for r in range(1, len(itemset)):
-            for left_tuple in combinations(itemset, r):
-                left = frozenset(left_tuple)
-                right = itemset - left
-                confidence = sup / support(left)
-                if confidence >= MIN_CONFIDENCE:
-                    print(f"{set(left)} -> {set(right)} | support={sup:.2f}, confidence={confidence:.2f}")
+    if count >= minimum_support_count:
+        print(items[i], "count =", count)
 
-freq = apriori()
-print("Frequent itemsets:")
-for itemset, sup in sorted(freq.items(), key=lambda x: (len(x[0]), sorted(x[0]))):
-    print(set(itemset), f"support={sup:.2f}")
+print("\nFrequent 2-itemsets")
 
-print("\nStrong association rules:")
-print_rules(freq)
+for i in range(len(items)):
+    for j in range(i + 1, len(items)):
+        count = 0
+
+        for transaction in transactions:
+            found_first = False
+            found_second = False
+
+            for item in transaction:
+                if item == items[i]:
+                    found_first = True
+                if item == items[j]:
+                    found_second = True
+
+            if found_first and found_second:
+                count += 1
+
+        if count >= minimum_support_count:
+            print(items[i], "+", items[j], "count =", count)
