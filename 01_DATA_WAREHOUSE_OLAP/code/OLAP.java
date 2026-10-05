@@ -5,10 +5,11 @@ public class OLAP {
             {"Laptop", "Bhimavaram", "January", "50000"},
             {"Laptop", "Bhimavaram", "February", "60000"},
             {"Phone", "Bhimavaram", "January", "30000"},
-            {"Phone", "Vijayawada", "January", "40000}
+            {"Phone", "Vijayawada", "January", "40000"}
         };
 
         System.out.println("SLICE: Product = Laptop");
+
         for (int i = 0; i < product.length; i++) {
             if (product[i][0].equals("Laptop")) {
                 printRow(product[i]);
@@ -16,6 +17,7 @@ public class OLAP {
         }
 
         System.out.println("\nDICE: Phone from Bhimavaram");
+
         for (int i = 0; i < product.length; i++) {
             if (product[i][0].equals("Phone")
                     && product[i][1].equals("Bhimavaram")) {
@@ -26,7 +28,7 @@ public class OLAP {
         int laptopTotal = 0;
         int phoneTotal = 0;
 
-        // ROLL-UP: calculate total sales for each product
+        // ROLL-UP: calculate total sales for each product.
         for (int i = 0; i < product.length; i++) {
             int amount = Integer.parseInt(product[i][3]);
 
@@ -41,13 +43,14 @@ public class OLAP {
         System.out.println("Laptop = " + laptopTotal);
         System.out.println("Phone = " + phoneTotal);
 
-        // DRILL-DOWN: display detailed rows
+        // DRILL-DOWN: display detailed rows.
         System.out.println("\nDRILL-DOWN");
+
         for (int i = 0; i < product.length; i++) {
             printRow(product[i]);
         }
 
-        // PIVOT is shown as a table in the record.
+        // PIVOT: show Product as rows and Month as columns.
         System.out.println("\nPIVOT");
         System.out.println("Product       January    February");
         System.out.println("Laptop        50000      60000");
@@ -55,6 +58,8 @@ public class OLAP {
     }
 
     static void printRow(String[] row) {
-        System.out.println(row[0] + " " + row[1] + " " + row[2] + " " + row[3]);
+        System.out.println(
+            row[0] + " " + row[1] + " " + row[2] + " " + row[3]
+        );
     }
 }
