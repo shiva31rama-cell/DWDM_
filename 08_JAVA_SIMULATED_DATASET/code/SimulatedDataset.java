@@ -1,25 +1,27 @@
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-
 public class SimulatedDataset {
     public static void main(String[] args) {
-        int numberOfInstances = 10;
-        int generated = 0;
-        Random random = new Random(42);
-        Set<String> uniqueInstances = new HashSet<>();
 
-        while (generated < numberOfInstances) {
-            int age = 18 + random.nextInt(43);
-            int score = 40 + random.nextInt(61);
-            String instance = age + "," + score;
+        int[][] data = new int[10][2];
+        int count = 0;
 
-            if (uniqueInstances.add(instance)) {
-                generated++;
-                System.out.println("Instance " + generated + ": " + instance);
-            }
+        // Create simple records.
+        for (int age = 18; age < 28; age++) {
+            int score = 50 + (age - 18) * 3;
+
+            data[count][0] = age;
+            data[count][1] = score;
+            count++;
         }
 
-        System.out.println("Total unique instances = " + uniqueInstances.size());
+        System.out.println("Unique simulated dataset");
+
+        for (int i = 0; i < count; i++) {
+            System.out.println(
+                "Age = " + data[i][0] +
+                ", Score = " + data[i][1]
+            );
+        }
+
+        System.out.println("Total unique records = " + count);
     }
 }
