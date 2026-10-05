@@ -1,49 +1,60 @@
-import java.util.*;
-
 public class Apriori {
-    static List<Set<String>> transactions = Arrays.asList(
-        new HashSet<>(Arrays.asList("milk", "bread", "eggs")),
-        new HashSet<>(Arrays.asList("milk", "bread")),
-        new HashSet<>(Arrays.asList("milk", "eggs")),
-        new HashSet<>(Arrays.asList("bread", "eggs")),
-        new HashSet<>(Arrays.asList("milk", "bread", "eggs"))
-    );
-
-    static double support(Set<String> itemset) {
-        int count = 0;
-        for (Set<String> t : transactions)
-            if (t.containsAll(itemset)) count++;
-        return (double) count / transactions.size();
-    }
-
     public static void main(String[] args) {
-        double minSupport = 0.6;
-        Set<String> allItems = new TreeSet<>();
-        for (Set<String> t : transactions) allItems.addAll(t);
 
-        List<Set<String>> current = new ArrayList<>();
-        for (String item : allItems)
-            current.add(new TreeSet<>(Collections.singleton(item)));
+        String[][] transactions = {
+            {"milk", "bread", "eggs"},
+            {"milk", "bread"},
+            {"milk", "eggs"},
+            {"bread", "eggs"},
+            {"milk", "bread", "eggs"}
+        };
 
-        while (!current.isEmpty()) {
-            List<Set<String>> frequent = new ArrayList<>();
-            for (Set<String> itemset : current) {
-                if (support(itemset) >= minSupport) {
-                    frequent.add(itemset);
-                    System.out.printf("%s support=%.2f%n", itemset, support(itemset));
+        String[] items = {"milk", "bread", "eggs"};
+        int minimumSupport = 3;
+
+        System.out.println("Frequent 1-itemsets");
+
+        for (int i = 0; i < items.length; i++) {
+            int count = 0;
+
+            for (int t = 0; t < transactions.length; t++) {
+                for (int x = 0; x < transactions[t].length; x++) {
+                    if (transactions[t][x].equals(items[i])) {
+                        count++;
+                        break;
+                    }
                 }
             }
 
-            Set<Set<String>> next = new HashSet<>();
-            for (int i = 0; i < frequent.size(); i++) {
-                for (int j = i + 1; j < frequent.size(); j++) {
-                    Set<String> union = new TreeSet<>(frequent.get(i));
-                    union.addAll(frequent.get(j));
-                    if (union.size() == frequent.get(i).size() + 1)
-                        next.add(union);
+            if (count >= minimumSupport) {
+                System.out.println(items[i] + " count = " + count);
+            }
+        }
+
+        System.out.println("\nFrequent 2-itemsets");
+
+        for (int i = 0; i < items.length; i++) {
+            for (int j = i + 1; j < items.length; j++) {
+
+                int count = 0;
+
+                for (int t = 0; t < transactions.length; t++) {
+                    boolean first = false;
+                    boolean second = false;
+
+                    for (int x = 0; x < transactions[t].length; x++) {
+                        if (transactions[t][x].equals(items[i])) first = true;
+                        if (transactions[t][x].equals(items[j])) second = true;
+                    }
+
+                    if (first && second) count++;
+                }
+
+                if (count >= minimumSupport) {
+                    System.out.println(items[i] + " + "
+                            + items[j] + " count = " + count);
                 }
             }
-            current = new ArrayList<>(next);
         }
     }
 }
