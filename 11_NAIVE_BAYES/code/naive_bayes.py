@@ -1,35 +1,57 @@
-from collections import Counter, defaultdict
+# Very simple categorical Naive Bayes.
+# No Counter, defaultdict or machine-learning library is used.
 
 data = [
-    (("sunny", "hot"), "no"),
-    (("sunny", "cool"), "yes"),
-    (("rainy", "cool"), "yes"),
-    (("rainy", "hot"), "yes"),
-    (("cloudy", "hot"), "yes"),
-    (("cloudy", "cool"), "yes"),
+    ["Sunny", "Hot", "No"],
+    ["Sunny", "Cool", "Yes"],
+    ["Rainy", "Cool", "Yes"],
+    ["Rainy", "Hot", "Yes"],
+    ["Cloudy", "Hot", "Yes"],
+    ["Cloudy", "Cool", "Yes"]
 ]
 
-def train(rows):
-    class_counts = Counter(label for _, label in rows)
-    value_counts = defaultdict(Counter)
-    for features, label in rows:
-        for i, value in enumerate(features):
-            value_counts[(i, label)][value] += 1
-    return class_counts, value_counts
+test_weather = "Rainy"
+test_temperature = "Hot"
 
-def predict(features, rows):
-    class_counts, value_counts = train(rows)
-    total = len(rows)
-    best_class, best_probability = None, -1
+yes_count = 0
+no_count = 0
 
-    for label in class_counts:
-        probability = class_counts[label] / total
-        for i, value in enumerate(features):
-            probability *= (value_counts[(i, label)][value] + 1) / (class_counts[label] + 2)
-        if probability > best_probability:
-            best_class, best_probability = label, probability
-    return best_class
+for row in data:
+    if row[2] == "Yes":
+        yes_count += 1
+    else:
+        no_count += 1
 
-test = ("rainy", "hot")
-print("Test instance:", test)
-print("Predicted class:", predict(test, data))
+yes_weather = 0
+yes_temperature = 0
+no_weather = 0
+no_temperature = 0
+
+for row in data:
+    if row[2] == "Yes":
+        if row[0] == test_weather:
+            yes_weather += 1
+        if row[1] == test_temperature:
+            yes_temperature += 1
+    else:
+        if row[0] == test_weather:
+            no_weather += 1
+        if row[1] == test_temperature:
+            no_temperature += 1
+
+# Laplace smoothing prevents zero probability.
+p_yes = (yes_count / len(data))
+p_yes = p_yes * ((yes_weather + 1) / (yes_count + 3))
+p_yes = p_yes * ((yes_temperature + 1) / (yes_count + 2))
+
+p_no = (no_count / len(data))
+p_no = p_no * ((no_weather + 1) / (no_count + 3))
+p_no = p_no * ((no_temperature + 1) / (no_count + 2))
+
+print("P(Yes) =", p_yes)
+print("P(No)  =", p_no)
+
+if p_yes > p_no:
+    print("Predicted class = Yes")
+else:
+    print("Predicted class = No")
