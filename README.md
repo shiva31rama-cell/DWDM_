@@ -2,6 +2,12 @@
 
 This repository is the **source of truth** for the DWDM lab.
 
+## Beginner help before running programs
+
+Read **00_BEGINNER_PACKAGE_DATASET_GUIDE.md** before running the Python/Java programs if packages, libraries, imports or datasets are new to you. It explains what each library means, why it is used, what the dataset contains, how the algorithm uses the dataset, and simple viva answers.
+
+The important library-using Python files also contain these explanations directly as comments at the top of the code.
+
 ## What is included
 
 ### Programming style
