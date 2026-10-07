@@ -1,29 +1,50 @@
 public class KMeans {
     public static void main(String[] args) {
 
-        int[][] p = {{1,1},{2,1},{1,2},{8,8},{9,8},{8,9}};
-        double aX=1, aY=1, bX=8, bY=8;
+        // 1. Create sample data
+        int[][] points = {
+            {1, 1}, {2, 1}, {1, 2},
+            {8, 8}, {9, 8}, {8, 9}
+        };
 
-        for (int round=0; round<5; round++) {
-            double ax=0, ay=0, bx=0, by=0;
-            int ac=0, bc=0;
+        // 2. Initial cluster centers
+        double c1x = 1, c1y = 1;
+        double c2x = 8, c2y = 8;
 
-            for (int i=0; i<p.length; i++) {
-                double da=(p[i][0]-aX)*(p[i][0]-aX)+(p[i][1]-aY)*(p[i][1]-aY);
-                double db=(p[i][0]-bX)*(p[i][0]-bX)+(p[i][1]-bY)*(p[i][1]-bY);
+        // 3. Run K-Means for a few iterations
+        for (int round = 0; round < 5; round++) {
 
-                if (da <= db) {
-                    ax += p[i][0]; ay += p[i][1]; ac++;
+            double x1 = 0, y1 = 0;
+            double x2 = 0, y2 = 0;
+            int count1 = 0, count2 = 0;
+
+            for (int i = 0; i < points.length; i++) {
+
+                double d1 = (points[i][0] - c1x) * (points[i][0] - c1x);
+                d1 = d1 + (points[i][1] - c1y) * (points[i][1] - c1y);
+
+                double d2 = (points[i][0] - c2x) * (points[i][0] - c2x);
+                d2 = d2 + (points[i][1] - c2y) * (points[i][1] - c2y);
+
+                if (d1 <= d2) {
+                    x1 += points[i][0];
+                    y1 += points[i][1];
+                    count1++;
                 } else {
-                    bx += p[i][0]; by += p[i][1]; bc++;
+                    x2 += points[i][0];
+                    y2 += points[i][1];
+                    count2++;
                 }
             }
 
-            aX=ax/ac; aY=ay/ac;
-            bX=bx/bc; bY=by/bc;
+            c1x = x1 / count1;
+            c1y = y1 / count1;
+            c2x = x2 / count2;
+            c2y = y2 / count2;
         }
 
-        System.out.println("Cluster 1 center = (" + aX + ", " + aY + ")");
-        System.out.println("Cluster 2 center = (" + bX + ", " + bY + ")");
+        // 4. Display result
+        System.out.println("Cluster 1 Center = (" + c1x + ", " + c1y + ")");
+        System.out.println("Cluster 2 Center = (" + c2x + ", " + c2y + ")");
     }
 }
