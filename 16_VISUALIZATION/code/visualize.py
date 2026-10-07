@@ -1,3 +1,20 @@
+# LIBRARIES USED
+# numpy -> creates/handles numerical arrays for the sample data.
+# matplotlib.pyplot -> draws the graphs and charts.
+#
+# DATASET
+# This experiment uses small sample lists such as marks, categories,
+# performance values and x/y coordinates.
+# Each list is the dataset used by one visualization.
+#
+# HOW IT WORKS
+# 1. Create or enter the data.
+# 2. Select a chart type.
+# 3. Give the data to Matplotlib.
+# 4. Display the chart.
+#
+# Matplotlib is a library; the lists below are our actual datasets.
+
 import numpy as np
 import matplotlib.pyplot as plt
 
