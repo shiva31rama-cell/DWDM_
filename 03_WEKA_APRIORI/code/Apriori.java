@@ -1,34 +1,41 @@
 public class Apriori {
     public static void main(String[] args) {
 
+        // 1. Create transaction data
         String[][] transactions = {
-            {"milk", "bread", "eggs"},
-            {"milk", "bread"},
-            {"milk", "eggs"},
-            {"bread", "eggs"},
-            {"milk", "bread", "eggs"}
+            {"Milk", "Bread", "Eggs"},
+            {"Milk", "Bread"},
+            {"Milk", "Eggs"},
+            {"Bread", "Eggs"},
+            {"Milk", "Bread", "Eggs"}
         };
 
-        String[] items = {"bread", "eggs", "milk"};
+        String[] items = {"Milk", "Bread", "Eggs"};
         int minimumSupport = 3;
 
-        System.out.println("Frequent 1-itemsets");
+        // 2. Find frequent 1-itemsets
+        System.out.println("--- FREQUENT 1-ITEMSETS ---");
 
         for (int i = 0; i < items.length; i++) {
             int count = 0;
 
             for (int t = 0; t < transactions.length; t++) {
-                if (contains(transactions[t], items[i])) {
-                    count++;
+                for (int x = 0; x < transactions[t].length; x++) {
+                    if (transactions[t][x].equals(items[i])) {
+                        count++;
+                        break;
+                    }
                 }
             }
 
             if (count >= minimumSupport) {
-                System.out.println(items[i] + " count = " + count);
+                System.out.println(items[i]
+                        + " Support Count = " + count);
             }
         }
 
-        System.out.println("\nFrequent 2-itemsets");
+        // 3. Find frequent 2-itemsets
+        System.out.println("\n--- FREQUENT 2-ITEMSETS ---");
 
         for (int i = 0; i < items.length; i++) {
             for (int j = i + 1; j < items.length; j++) {
@@ -36,26 +43,22 @@ public class Apriori {
                 int count = 0;
 
                 for (int t = 0; t < transactions.length; t++) {
-                    if (contains(transactions[t], items[i])
-                            && contains(transactions[t], items[j])) {
-                        count++;
+                    boolean first = false;
+                    boolean second = false;
+
+                    for (int x = 0; x < transactions[t].length; x++) {
+                        if (transactions[t][x].equals(items[i])) first = true;
+                        if (transactions[t][x].equals(items[j])) second = true;
                     }
+
+                    if (first && second) count++;
                 }
 
                 if (count >= minimumSupport) {
-                    System.out.println(items[i] + " + "
-                            + items[j] + " count = " + count);
+                    System.out.println(items[i] + " + " + items[j]
+                            + " Support Count = " + count);
                 }
             }
         }
-    }
-
-    static boolean contains(String[] transaction, String item) {
-        for (int i = 0; i < transaction.length; i++) {
-            if (transaction[i].equals(item)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
