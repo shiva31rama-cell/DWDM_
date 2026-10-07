@@ -1,17 +1,47 @@
-observed = [
-    [30, 20],
-    [10, 40],
-]
+import numpy as np
+import pandas as pd
+from scipy.stats import chi2_contingency
 
-row_totals = [sum(row) for row in observed]
-col_totals = [sum(observed[r][c] for r in range(len(observed))) for c in range(len(observed[0]))]
-total = sum(row_totals)
+# 1. Create the data matrix
+# Rows = Young, Old
+# Columns = Apple, Orange
+data = np.array([[50, 10], [20, 40]])
 
-chi_square = 0.0
-for r in range(len(observed)):
-    for c in range(len(observed[0])):
-        expected = row_totals[r] * col_totals[c] / total
-        chi_square += (observed[r][c] - expected) ** 2 / expected
+# 2. Display the observed table
+df = pd.DataFrame(
+    data,
+    index=["Young", "Old"],
+    columns=["Apple", "Orange"]
+)
 
-print("Observed table:", observed)
-print("Chi-square value =", round(chi_square, 4))
+print("--- Observed Data Table ---")
+print(df)
+print("\n" + "=" * 50)
+
+# 3. Perform Chi-Square Test
+# correction=False gives the classic textbook calculation.
+chi2, p_value, degrees, expected = chi2_contingency(
+    data,
+    correction=False
+)
+
+# 4. Display the results
+print("--- Chi-Square Test Results ---")
+print("Calculated Chi-Square Value: %.4f" % chi2)
+print("P-Value: %.6f" % p_value)
+print("Degrees of Freedom:", degrees)
+
+print("\n--- Expected Frequencies Table ---")
+expected_df = pd.DataFrame(
+    expected,
+    index=["Young", "Old"],
+    columns=["Apple", "Orange"]
+)
+print(expected_df.round(2))
+
+# 5. Observation
+print("\nObservation:")
+if p_value < 0.05:
+    print("The variables are significantly associated.")
+else:
+    print("There is no significant association.")
