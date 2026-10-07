@@ -1,15 +1,16 @@
-# Create unique simulated records using basic Python.
-# A record is unique when age and score are not repeated together.
-
+# 1. Create an empty dataset
 records = []
 
+# 2. Generate unique records
 for age in range(18, 28):
     score = 50 + (age - 18) * 3
-    record = [age, score]
-    records.append(record)
+    records.append([age, score])
 
-print("Unique simulated dataset")
+# 3. Display the dataset
+print("--- SIMULATED DATASET ---")
+
 for record in records:
-    print(record)
+    print("Age =", record[0], "Score =", record[1])
 
-print("Total records =", len(records))
+# 4. Display total records
+print("Total unique records =", len(records))
