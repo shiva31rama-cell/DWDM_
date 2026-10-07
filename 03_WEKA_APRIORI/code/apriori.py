@@ -1,44 +1,42 @@
-# Very simple Apriori-style program.
-# No itertools or external libraries are used.
-
+# 1. Create transaction data
 transactions = [
-    ["milk", "bread", "eggs"],
-    ["milk", "bread"],
-    ["milk", "eggs"],
-    ["bread", "eggs"],
-    ["milk", "bread", "eggs"]
+    ["Milk", "Bread", "Eggs"],
+    ["Milk", "Bread"],
+    ["Milk", "Eggs"],
+    ["Bread", "Eggs"],
+    ["Milk", "Bread", "Eggs"]
 ]
 
 minimum_support = 3
+items = ["Milk", "Bread", "Eggs"]
 
-items = ["bread", "eggs", "milk"]
+# 2. Find frequent 1-itemsets
+print("--- FREQUENT 1-ITEMSETS ---")
 
-print("Frequent 1-itemsets")
-
-frequent = []
-
-for item in items:
+for i in range(len(items)):
     count = 0
 
     for transaction in transactions:
-        if item in transaction:
+        if items[i] in transaction:
             count = count + 1
 
     if count >= minimum_support:
-        frequent.append([item])
-        print(item, "count =", count)
+        print([items[i]], "Support Count =", count)
 
-print("\nFrequent 2-itemsets")
+# 3. Find frequent 2-itemsets
+print("\n--- FREQUENT 2-ITEMSETS ---")
 
 for i in range(len(items)):
     for j in range(i + 1, len(items)):
-        first = items[i]
-        second = items[j]
         count = 0
 
         for transaction in transactions:
-            if first in transaction and second in transaction:
+            if items[i] in transaction and items[j] in transaction:
                 count = count + 1
 
         if count >= minimum_support:
-            print(first, "+", second, "count =", count)
+            print([items[i], items[j]], "Support Count =", count)
+
+# 4. Observation
+print("\nObservation: Itemsets with support count >=", minimum_support,
+      "are frequent.")
