@@ -1,28 +1,30 @@
-# Basic Apriori idea in Python.
-# We count 1-itemsets and 2-itemsets using loops.
-
+# 1. Create transaction data
 transactions = [
-    ["milk", "bread", "eggs"],
-    ["milk", "bread"],
-    ["milk", "eggs"],
-    ["bread", "eggs"],
-    ["milk", "bread", "eggs"]
+    ["Milk", "Bread", "Eggs"],
+    ["Milk", "Bread"],
+    ["Milk", "Eggs"],
+    ["Bread", "Eggs"],
+    ["Milk", "Bread", "Eggs"]
 ]
 
-items = ["milk", "bread", "eggs"]
+items = ["Milk", "Bread", "Eggs"]
 minimum_support = 3
 
-print("Frequent itemsets")
+# 2. Find frequent 1-itemsets
+print("--- FREQUENT 1-ITEMSETS ---")
 
 for i in range(len(items)):
     count = 0
 
     for transaction in transactions:
         if items[i] in transaction:
-            count += 1
+            count = count + 1
 
     if count >= minimum_support:
-        print([items[i]], "support count =", count)
+        print([items[i]], "Support Count =", count)
+
+# 3. Find frequent 2-itemsets
+print("\n--- FREQUENT 2-ITEMSETS ---")
 
 for i in range(len(items)):
     for j in range(i + 1, len(items)):
@@ -30,7 +32,7 @@ for i in range(len(items)):
 
         for transaction in transactions:
             if items[i] in transaction and items[j] in transaction:
-                count += 1
+                count = count + 1
 
         if count >= minimum_support:
-            print([items[i], items[j]], "support count =", count)
+            print([items[i], items[j]], "Support Count =", count)
