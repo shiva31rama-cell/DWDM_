@@ -1,38 +1,42 @@
-# Simple association-rule demonstration.
-# Rule: milk -> bread
-# No association-rule library is used.
-
+# 1. Create transaction data
 transactions = [
-    ["milk", "bread", "eggs"],
-    ["milk", "bread"],
-    ["milk", "eggs"],
-    ["bread", "eggs"],
-    ["milk", "bread", "eggs"]
+    ["Milk", "Bread", "Eggs"],
+    ["Milk", "Bread"],
+    ["Milk", "Eggs"],
+    ["Bread", "Eggs"],
+    ["Milk", "Bread", "Eggs"]
 ]
 
+# Rule: Milk -> Bread
 milk_count = 0
 bread_count = 0
 both_count = 0
 
+# 2. Count occurrences
 for transaction in transactions:
-    has_milk = "milk" in transaction
-    has_bread = "bread" in transaction
+    has_milk = "Milk" in transaction
+    has_bread = "Bread" in transaction
 
     if has_milk:
-        milk_count += 1
-    if has_bread:
-        bread_count += 1
-    if has_milk and has_bread:
-        both_count += 1
+        milk_count = milk_count + 1
 
+    if has_bread:
+        bread_count = bread_count + 1
+
+    if has_milk and has_bread:
+        both_count = both_count + 1
+
+# 3. Calculate support and confidence
 support = both_count / len(transactions)
 confidence = both_count / milk_count
 
-print("Rule: milk -> bread")
+print("--- ASSOCIATION RULE ---")
+print("Rule: Milk -> Bread")
 print("Support =", support)
 print("Confidence =", confidence)
 
+# 4. Observation
 if confidence >= 0.70:
-    print("Strong rule")
+    print("Observation: Strong rule")
 else:
-    print("Weak rule")
+    print("Observation: Weak rule")
