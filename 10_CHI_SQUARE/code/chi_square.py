@@ -1,3 +1,21 @@
+# LIBRARIES USED
+# numpy      -> stores the observed data as a numerical array.
+# pandas     -> displays the observed/expected data as tables.
+# scipy.stats -> provides the Chi-Square statistical test.
+# These are libraries, not our dataset.
+#
+# DATASET
+# The dataset is a 2 x 2 frequency table.
+# Rows represent Young and Old.
+# Columns represent Apple and Orange.
+# The numbers are observed frequencies (counts).
+#
+# HOW IT WORKS
+# 1. Store the observed frequencies.
+# 2. Calculate expected frequencies.
+# 3. Apply the Chi-Square formula using scipy.
+# 4. Display the result and observation.
+
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
