@@ -1,57 +1,62 @@
 public class OLAP {
     public static void main(String[] args) {
 
-        String[][] product = {
+        // 1. Create a simple sales data cube
+        String[][] sales = {
             {"Laptop", "Bhimavaram", "January", "50000"},
             {"Laptop", "Bhimavaram", "February", "60000"},
             {"Phone", "Bhimavaram", "January", "30000"},
             {"Phone", "Vijayawada", "January", "40000"}
         };
 
-        System.out.println("SLICE: Product = Laptop");
+        System.out.println("--- ORIGINAL DATA ---");
+        for (int i = 0; i < sales.length; i++) {
+            printRow(sales[i]);
+        }
 
-        for (int i = 0; i < product.length; i++) {
-            if (product[i][0].equals("Laptop")) {
-                printRow(product[i]);
+        // 2. SLICE
+        System.out.println("\n--- SLICE: Product = Laptop ---");
+        for (int i = 0; i < sales.length; i++) {
+            if (sales[i][0].equals("Laptop")) {
+                printRow(sales[i]);
             }
         }
 
-        System.out.println("\nDICE: Phone from Bhimavaram");
-
-        for (int i = 0; i < product.length; i++) {
-            if (product[i][0].equals("Phone")
-                    && product[i][1].equals("Bhimavaram")) {
-                printRow(product[i]);
+        // 3. DICE
+        System.out.println("\n--- DICE: Phone and Bhimavaram ---");
+        for (int i = 0; i < sales.length; i++) {
+            if (sales[i][0].equals("Phone")
+                    && sales[i][1].equals("Bhimavaram")) {
+                printRow(sales[i]);
             }
         }
 
+        // 4. ROLL-UP
         int laptopTotal = 0;
         int phoneTotal = 0;
 
-        // ROLL-UP: calculate total sales for each product.
-        for (int i = 0; i < product.length; i++) {
-            int amount = Integer.parseInt(product[i][3]);
+        for (int i = 0; i < sales.length; i++) {
+            int amount = Integer.parseInt(sales[i][3]);
 
-            if (product[i][0].equals("Laptop")) {
+            if (sales[i][0].equals("Laptop")) {
                 laptopTotal = laptopTotal + amount;
             } else {
                 phoneTotal = phoneTotal + amount;
             }
         }
 
-        System.out.println("\nROLL-UP");
+        System.out.println("\n--- ROLL-UP: Total by Product ---");
         System.out.println("Laptop = " + laptopTotal);
-        System.out.println("Phone = " + phoneTotal);
+        System.out.println("Phone  = " + phoneTotal);
 
-        // DRILL-DOWN: display detailed rows.
-        System.out.println("\nDRILL-DOWN");
-
-        for (int i = 0; i < product.length; i++) {
-            printRow(product[i]);
+        // 5. DRILL-DOWN
+        System.out.println("\n--- DRILL-DOWN: Detailed Sales ---");
+        for (int i = 0; i < sales.length; i++) {
+            printRow(sales[i]);
         }
 
-        // PIVOT: show Product as rows and Month as columns.
-        System.out.println("\nPIVOT");
+        // 6. PIVOT
+        System.out.println("\n--- PIVOT ---");
         System.out.println("Product       January    February");
         System.out.println("Laptop        50000      60000");
         System.out.println("Phone         70000      0");
