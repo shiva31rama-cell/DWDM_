@@ -1,12 +1,38 @@
 import math
 
-points = [(1, 2), (2, 4), (5, 5), (8, 7)]
+# 1. Create a dataset with four instances and two attributes
+points = [
+    [1, 2],
+    [2, 4],
+    [5, 5],
+    [8, 7]
+]
 
-def euclidean(a, b):
-    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+# 2. Calculate Euclidean dissimilarity
+def distance(a, b):
+    value = (a[0] - b[0]) ** 2
+    value = value + (a[1] - b[1]) ** 2
+    return math.sqrt(value)
 
-matrix = [[euclidean(a, b) for b in points] for a in points]
+# 3. Create the dissimilarity matrix
+matrix = []
 
-print("Dissimilarity matrix:")
+for i in range(len(points)):
+    row = []
+
+    for j in range(len(points)):
+        row.append(distance(points[i], points[j]))
+
+    matrix.append(row)
+
+# 4. Display the matrix
+print("--- DISSIMILARITY MATRIX ---")
+
 for row in matrix:
-    print(" ".join(f"{value:.2f}" for value in row))
+    for value in row:
+        print("%.2f" % value, end=" ")
+    print()
+
+# 5. Observation
+print("\nObservation: The diagonal values are 0 because")
+print("the dissimilarity of an object with itself is 0.")
