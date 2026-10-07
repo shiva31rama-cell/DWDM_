@@ -1,18 +1,20 @@
 public class Apriori {
     public static void main(String[] args) {
 
+        // 1. Create transaction data
         String[][] transactions = {
-            {"milk", "bread", "eggs"},
-            {"milk", "bread"},
-            {"milk", "eggs"},
-            {"bread", "eggs"},
-            {"milk", "bread", "eggs"}
+            {"Milk", "Bread", "Eggs"},
+            {"Milk", "Bread"},
+            {"Milk", "Eggs"},
+            {"Bread", "Eggs"},
+            {"Milk", "Bread", "Eggs"}
         };
 
-        String[] items = {"milk", "bread", "eggs"};
+        String[] items = {"Milk", "Bread", "Eggs"};
         int minimumSupport = 3;
 
-        System.out.println("Frequent 1-itemsets");
+        // 2. Find frequent 1-itemsets
+        System.out.println("--- FREQUENT 1-ITEMSETS ---");
 
         for (int i = 0; i < items.length; i++) {
             int count = 0;
@@ -27,11 +29,13 @@ public class Apriori {
             }
 
             if (count >= minimumSupport) {
-                System.out.println(items[i] + " count = " + count);
+                System.out.println(items[i]
+                        + " Support Count = " + count);
             }
         }
 
-        System.out.println("\nFrequent 2-itemsets");
+        // 3. Find frequent 2-itemsets
+        System.out.println("\n--- FREQUENT 2-ITEMSETS ---");
 
         for (int i = 0; i < items.length; i++) {
             for (int j = i + 1; j < items.length; j++) {
@@ -51,8 +55,8 @@ public class Apriori {
                 }
 
                 if (count >= minimumSupport) {
-                    System.out.println(items[i] + " + "
-                            + items[j] + " count = " + count);
+                    System.out.println(items[i] + " + " + items[j]
+                            + " Support Count = " + count);
                 }
             }
         }
