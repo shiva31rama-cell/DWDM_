@@ -1,6 +1,7 @@
 public class NaiveBayes {
     public static void main(String[] args) {
 
+        // 1. Training data
         String[][] data = {
             {"Sunny", "Hot", "No"},
             {"Sunny", "Cool", "Yes"},
@@ -10,47 +11,55 @@ public class NaiveBayes {
             {"Cloudy", "Cool", "Yes"}
         };
 
+        // 2. Test record
         String testWeather = "Rainy";
         String testTemperature = "Hot";
 
-        int yesCount = 0;
-        int noCount = 0;
+        // 3. Count class values
+        int yes = 0;
+        int no = 0;
 
         for (int i = 0; i < data.length; i++) {
             if (data[i][2].equals("Yes")) {
-                yesCount++;
+                yes++;
             } else {
-                noCount++;
+                no++;
             }
         }
 
-        int yesWeather = 0, yesTemp = 0;
-        int noWeather = 0, noTemp = 0;
+        // 4. Count matching attribute values
+        int yesWeather = 0;
+        int yesTemperature = 0;
+        int noWeather = 0;
+        int noTemperature = 0;
 
         for (int i = 0; i < data.length; i++) {
             if (data[i][2].equals("Yes")) {
                 if (data[i][0].equals(testWeather)) yesWeather++;
-                if (data[i][1].equals(testTemperature)) yesTemp++;
+                if (data[i][1].equals(testTemperature)) yesTemperature++;
             } else {
                 if (data[i][0].equals(testWeather)) noWeather++;
-                if (data[i][1].equals(testTemperature)) noTemp++;
+                if (data[i][1].equals(testTemperature)) noTemperature++;
             }
         }
 
-        double yesProbability = ((double) yesCount / data.length)
-                * (yesWeather + 1.0) / (yesCount + 3)
-                * (yesTemp + 1.0) / (yesCount + 2);
+        // 5. Calculate probabilities
+        double pYes = (double) yes / data.length;
+        pYes = pYes * (yesWeather + 1.0) / (yes + 3);
+        pYes = pYes * (yesTemperature + 1.0) / (yes + 2);
 
-        double noProbability = ((double) noCount / data.length)
-                * (noWeather + 1.0) / (noCount + 3)
-                * (noTemp + 1.0) / (noCount + 2);
+        double pNo = (double) no / data.length;
+        pNo = pNo * (noWeather + 1.0) / (no + 3);
+        pNo = pNo * (noTemperature + 1.0) / (no + 2);
 
-        System.out.println("Yes probability = " + yesProbability);
-        System.out.println("No probability = " + noProbability);
+        // 6. Display result
+        System.out.println("P(Yes) = " + pYes);
+        System.out.println("P(No)  = " + pNo);
 
-        if (yesProbability > noProbability)
+        if (pYes > pNo) {
             System.out.println("Predicted class = Yes");
-        else
+        } else {
             System.out.println("Predicted class = No");
+        }
     }
 }
