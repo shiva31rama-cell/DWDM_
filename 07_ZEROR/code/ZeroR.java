@@ -1,10 +1,12 @@
 public class ZeroR {
     public static void main(String[] args) {
 
+        // 1. Create class values
         String[] classes = {
             "Setosa", "Versicolor", "Setosa", "Virginica", "Setosa"
         };
 
+        // 2. Count each class
         int setosa = 0;
         int versicolor = 0;
         int virginica = 0;
@@ -19,6 +21,7 @@ public class ZeroR {
             }
         }
 
+        // 3. Find majority class
         String majority;
 
         if (setosa >= versicolor && setosa >= virginica) {
@@ -29,6 +32,7 @@ public class ZeroR {
             majority = "Virginica";
         }
 
+        // 4. Display result
         System.out.println("Setosa count = " + setosa);
         System.out.println("Versicolor count = " + versicolor);
         System.out.println("Virginica count = " + virginica);
