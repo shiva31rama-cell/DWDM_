@@ -1,35 +1,67 @@
-# Python version of the same simple k-means idea used in the R experiment.
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
 
-points = [[1, 1], [2, 1], [1, 2], [8, 8], [9, 8], [8, 9]]
-center1 = [1, 1]
-center2 = [8, 8]
+# ============================================================
+# STEP 1: Generate sample data
+# ============================================================
+# Create 300 data points divided into 4 groups.
+X, y_true = make_blobs(
+    n_samples=300,
+    centers=4,
+    cluster_std=0.60,
+    random_state=0
+)
 
-for repeat in range(5):
-    cluster1 = []
-    cluster2 = []
+# ============================================================
+# STEP 2: Setup and train K-Means
+# ============================================================
+# We use 4 clusters because the sample data has 4 groups.
+kmeans = KMeans(
+    n_clusters=4,
+    init="k-means++",
+    random_state=42
+)
 
-    for p in points:
-        d1 = (p[0] - center1[0]) ** 2 + (p[1] - center1[1]) ** 2
-        d2 = (p[0] - center2[0]) ** 2 + (p[1] - center2[1]) ** 2
+kmeans.fit(X)
 
-        if d1 <= d2:
-            cluster1.append(p)
-        else:
-            cluster2.append(p)
+# ============================================================
+# STEP 3: Predict cluster for every data point
+# ============================================================
+y_kmeans = kmeans.predict(X)
 
-    x = y = 0
-    for p in cluster1:
-        x += p[0]
-        y += p[1]
-    center1 = [x / len(cluster1), y / len(cluster1)]
+# Get the final cluster center points.
+centroids = kmeans.cluster_centers_
 
-    x = y = 0
-    for p in cluster2:
-        x += p[0]
-        y += p[1]
-    center2 = [x / len(cluster2), y / len(cluster2)]
+# ============================================================
+# STEP 4: Plot the result
+# ============================================================
+plt.figure(figsize=(9, 7))
 
-print("Cluster 1:", cluster1)
-print("Cluster 2:", cluster2)
-print("Center 1:", center1)
-print("Center 2:", center2)
+plt.scatter(
+    X[:, 0],
+    X[:, 1],
+    c=y_kmeans,
+    s=50,
+    cmap="viridis",
+    alpha=0.9,
+    label="Data Points"
+)
+
+# Plot the four cluster centers.
+plt.scatter(
+    centroids[:, 0],
+    centroids[:, 1],
+    c="red",
+    s=200,
+    marker="X",
+    label="Cluster Centers"
+)
+
+plt.title("Simple K-Means Clustering Example")
+plt.xlabel("X Coordinate")
+plt.ylabel("Y Coordinate")
+plt.grid(True, linestyle="--", alpha=0.9)
+plt.legend()
+plt.show()
