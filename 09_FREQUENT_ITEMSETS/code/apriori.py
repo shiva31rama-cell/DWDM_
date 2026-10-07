@@ -1,49 +1,38 @@
-# Simple Apriori-style demonstration.
-# Only lists, loops and if statements are used.
-
+# 1. Create transaction data
 transactions = [
-    ["milk", "bread", "eggs"],
-    ["milk", "bread"],
-    ["milk", "eggs"],
-    ["bread", "eggs"],
-    ["milk", "bread", "eggs"]
+    ["Milk", "Bread", "Eggs"],
+    ["Milk", "Bread"],
+    ["Milk", "Eggs"],
+    ["Bread", "Eggs"],
+    ["Milk", "Bread", "Eggs"]
 ]
 
-items = ["bread", "eggs", "milk"]
-minimum_support_count = 3
+items = ["Milk", "Bread", "Eggs"]
+minimum_support = 3
 
-print("Frequent 1-itemsets")
+# 2. Generate frequent 1-itemsets
+print("--- FREQUENT 1-ITEMSETS ---")
 
 for i in range(len(items)):
     count = 0
 
     for transaction in transactions:
-        for item in transaction:
-            if item == items[i]:
-                count += 1
-                break
+        if items[i] in transaction:
+            count = count + 1
 
-    if count >= minimum_support_count:
-        print(items[i], "count =", count)
+    if count >= minimum_support:
+        print([items[i]], "Support Count =", count)
 
-print("\nFrequent 2-itemsets")
+# 3. Generate frequent 2-itemsets
+print("\n--- FREQUENT 2-ITEMSETS ---")
 
 for i in range(len(items)):
     for j in range(i + 1, len(items)):
         count = 0
 
         for transaction in transactions:
-            found_first = False
-            found_second = False
+            if items[i] in transaction and items[j] in transaction:
+                count = count + 1
 
-            for item in transaction:
-                if item == items[i]:
-                    found_first = True
-                if item == items[j]:
-                    found_second = True
-
-            if found_first and found_second:
-                count += 1
-
-        if count >= minimum_support_count:
-            print(items[i], "+", items[j], "count =", count)
+        if count >= minimum_support:
+            print([items[i], items[j]], "Support Count =", count)
