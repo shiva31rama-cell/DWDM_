@@ -1,3 +1,21 @@
+# LIBRARIES USED
+# matplotlib.pyplot -> draws the final cluster graph.
+# numpy             -> provides numerical array support.
+# sklearn.cluster.KMeans -> provides the K-Means algorithm.
+# sklearn.datasets.make_blobs -> creates sample grouped data.
+#
+# DATASET
+# X contains 400 generated numerical points divided into four groups.
+# y_true stores the original generated group labels for reference.
+#
+# HOW IT WORKS
+# 1. Generate sample data.
+# 2. Create the K-Means model.
+# 3. Train the model.
+# 4. Predict the cluster of each point.
+# 5. Get the cluster centers.
+# 6. Plot the points and centers.
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.cluster import KMeans
