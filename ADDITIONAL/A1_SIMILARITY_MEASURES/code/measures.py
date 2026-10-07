@@ -1,32 +1,69 @@
 import math
 
+# 1. Create two data objects
 A = [1, 2, 3, 4]
 B = [2, 3, 4, 5]
 
-def euclidean(a, b):
-    return math.sqrt(sum((x-y)**2 for x, y in zip(a, b)))
+# 2. Euclidean distance
+sum_square = 0
 
-def manhattan(a, b):
-    return sum(abs(x-y) for x, y in zip(a, b))
+for i in range(len(A)):
+    difference = A[i] - B[i]
+    sum_square = sum_square + difference * difference
 
-def cosine(a, b):
-    dot = sum(x*y for x, y in zip(a, b))
-    na = math.sqrt(sum(x*x for x in a))
-    nb = math.sqrt(sum(y*y for y in b))
-    return dot / (na * nb)
+euclidean = math.sqrt(sum_square)
 
-def pearson(a, b):
-    ma, mb = sum(a)/len(a), sum(b)/len(b)
-    num = sum((x-ma)*(y-mb) for x, y in zip(a, b))
-    den = math.sqrt(sum((x-ma)**2 for x in a) * sum((y-mb)**2 for y in b))
-    return num / den
+# 3. Manhattan distance
+manhattan = 0
 
-def jaccard(a, b):
-    sa, sb = set(a), set(b)
-    return len(sa & sb) / len(sa | sb)
+for i in range(len(A)):
+    manhattan = manhattan + abs(A[i] - B[i])
 
-print("Euclidean distance:", euclidean(A, B))
-print("Manhattan distance:", manhattan(A, B))
-print("Cosine similarity:", cosine(A, B))
-print("Pearson correlation:", pearson(A, B))
-print("Jaccard similarity:", jaccard(A, B))
+# 4. Cosine similarity
+dot = 0
+square_a = 0
+square_b = 0
+
+for i in range(len(A)):
+    dot = dot + A[i] * B[i]
+    square_a = square_a + A[i] * A[i]
+    square_b = square_b + B[i] * B[i]
+
+cosine = dot / (math.sqrt(square_a) * math.sqrt(square_b))
+
+# 5. Pearson correlation
+mean_a = sum(A) / len(A)
+mean_b = sum(B) / len(B)
+
+numerator = 0
+part_a = 0
+part_b = 0
+
+for i in range(len(A)):
+    numerator = numerator + (A[i] - mean_a) * (B[i] - mean_b)
+    part_a = part_a + (A[i] - mean_a) ** 2
+    part_b = part_b + (B[i] - mean_b) ** 2
+
+pearson = numerator / math.sqrt(part_a * part_b)
+
+# 6. Jaccard similarity
+intersection = 0
+union = 0
+
+for value in A:
+    if value in B:
+        intersection = intersection + 1
+    union = union + 1
+
+for value in B:
+    if value not in A:
+        union = union + 1
+
+jaccard = intersection / union
+
+# 7. Display results
+print("Euclidean Distance =", euclidean)
+print("Manhattan Distance =", manhattan)
+print("Cosine Similarity =", cosine)
+print("Pearson Correlation =", pearson)
+print("Jaccard Similarity =", jaccard)
