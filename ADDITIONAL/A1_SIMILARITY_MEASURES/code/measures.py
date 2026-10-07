@@ -1,3 +1,17 @@
+# LIBRARY USED
+# math -> provides sqrt() for square-root calculations.
+# math is part of Python's standard library, so it normally does not
+# need a separate third-party installation.
+#
+# DATASET
+# A and B are the two data objects being compared.
+# Each position contains a numerical attribute.
+#
+# HOW IT WORKS
+# The same two objects are compared using five measures:
+# Euclidean distance, Manhattan distance, Cosine similarity,
+# Pearson correlation and Jaccard similarity.
+
 import math
 
 # 1. Create two data objects
